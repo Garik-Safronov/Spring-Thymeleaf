@@ -1,4 +1,4 @@
-package ru.gb.thymeleafprepare;
+package ru.gb.thymeleafprepare.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -52,5 +52,6 @@ public class ProductController {
 //        productService.deleteById(id);
 //        return "redirect:/product/all";
 //    }
+
 
 }
