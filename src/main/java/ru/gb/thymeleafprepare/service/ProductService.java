@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import ru.gb.thymeleafprepare.dao.CartDao;
 import ru.gb.thymeleafprepare.dao.ProductDao;
+import ru.gb.thymeleafprepare.entity.Cart;
 import ru.gb.thymeleafprepare.entity.Product;
 import ru.gb.thymeleafprepare.entity.enums.Status;
 
@@ -83,6 +85,7 @@ public class ProductService {
     public List<Product> findAllSortedById(int page, int size) {
         return productDao.findAllByStatus(Status.ACTIVE, PageRequest.of(page, size, Sort.by("id")));
     }
+
 
 
 }
