@@ -1,4 +1,4 @@
-package ru.gb.thymeleafprepare;
+package ru.gb.thymeleafprepare.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -34,6 +34,18 @@ public class ProductController {
         return "product-form";
     }
 
+    @GetMapping("/{productId}")
+    public String showInfo (Model model, @PathVariable(name = "productId") Long id) {
+        Product product;
+        if (id != null) {
+            product = productService.findById(id);
+        } else {
+            return "redirect:/product/all";
+        }
+        model.addAttribute("product", product);
+        return "product-info";
+    }
+
     @PostMapping
     public String saveProduct(Product product) {
         product.setManufactureDate(LocalDate.now());
@@ -47,10 +59,16 @@ public class ProductController {
         return "redirect:/product/all";
     }
 
+    @GetMapping("/login-offer")
+    public String loginOffer () {
+        return "login-offer";
+    }
+
 //    @GetMapping("/delete")
 //    public String deleteById(@RequestParam(name = "id") Long id) {
 //        productService.deleteById(id);
 //        return "redirect:/product/all";
 //    }
+
 
 }

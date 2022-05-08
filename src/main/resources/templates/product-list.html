@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/html">
+<html lang="en" xmlns:th="http://www.w3.org/1999/html" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Список продуктов</title>
@@ -23,8 +23,10 @@
                 <th scope="col">#</th>
                 <th scope="col">Наименование</th>
                 <th scope="col">Цена</th>
-                <th scope="col">Редактировать</th>
-                <th scope="col">Удалить</th>
+                <th scope="col" sec:authorize="hasAuthority('ADMIN')">Редактировать</th>
+                <th scope="col" sec:authorize="hasAuthority('ADMIN')">Удалить</th>
+                <th scope="col" sec:authorize="hasAuthority('USER') || isAnonymous()">Просмотреть</th>
+                <th scope="col" sec:authorize="hasAuthority('USER') || isAnonymous()">В корзину</th>
             </tr>
             </thead>
             <tbody>
@@ -36,11 +38,16 @@
                 <td th:text="${product.title}"></td>
                 <td th:text="${product.cost}"></td>
                 <td>
-                    <a type="button" th:href="@{/product(id=${product.id})}" class="btn btn-warning">Редактировать</a>
+                    <a type="button" sec:authorize="hasAuthority('ADMIN')" th:href="@{/product(id=${product.id})}" class="btn btn-warning">Редактировать</a>
+                    <a type="button" sec:authorize="hasAuthority('USER') || isAnonymous()" th:href="@{'/product/' + ${product.id}}" class="btn btn-warning">Посмотреть товар</a>
                 </td>
                 <td>
-                    <a type="button" th:href="@{${'/product/delete/' + product.id}}" class="btn btn-danger">Удалить</a>
+                    <a type="button" sec:authorize="hasAuthority('ADMIN')" th:href="@{${'/product/delete/' + product.id}}" class="btn btn-danger">Удалить</a>
+                    <a type="button" sec:authorize="hasAuthority('USER') || isAnonymous()" th:href="@{${'/cart/add/' + product.id}}" class="btn btn-danger">+</a>
 <!--                    <a type="button" th:href="@{/product/delete(id=${product.id})}" class="btn btn-danger">Удалить</a>-->
+                </td>
+                <td>
+                    <a type="button" th:href="@{${'/product/addProductInCart/' + product.id}}" class="btn btn-primary">В корзину</a>
                 </td>
             </tr>
             </tbody>
